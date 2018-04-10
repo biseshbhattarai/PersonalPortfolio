@@ -13,7 +13,7 @@ def home(request):
     context = {
     'form':form
     }
-    return render(request, 'newtonapp/homepage.html', context)
+    return render(request, 'blog/homepage.html', context)
     
 
 
@@ -29,5 +29,18 @@ def blogview(request):
     context = {
         'form': form
     }   
-    return render(request, 'newtonapp/blog.html', context)
+    return render(request, 'blog/blog.html', context)
     
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect ('login')
+    else:
+        form = RegisterForm()
+    context = {
+        'form':
+        form
+    }
+    return render(request, 'blog/signup.html', context)
