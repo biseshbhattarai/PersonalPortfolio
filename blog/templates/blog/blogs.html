@@ -1,0 +1,56 @@
+{% extends 'blog/index.html' %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">BISESH BHATTARAI</a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#about">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#subscribe">Subscribe</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+{% endblock %}
+
+
+{% block content %}
+<section class="bg-dark" id="about">
+    <div class="container">
+    <div class="row">
+        {% for i in blogitems %}
+        <div class="col-lg-6 col-sm-6">
+                <img class="img-fluid" src="{{i.image.url}}" alt="">
+                <h1><a href="{% url 'detail' i.pk %}">{{i.title}}</a></h1>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block body %}
+<section class="bg-dark text-info" id="subscribe">
+        <div class="container text-center">
+          <h2 class="mb-4">Subscribe to get latest update</h2>
+              <form class="form-signin" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Subscribe</button>
+              </form>
+        </div>
+</section>
+{% endblock %}

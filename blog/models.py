@@ -16,3 +16,14 @@ class Subscription(models.Model):
     def __str__(self):
         return self.email
 
+
+class Blog(models.Model):
+    image = models.FileField(upload_to='documents/')
+    title = models.CharField(max_length=200)
+    content = models.CharField(max_length=200000)
+    upvote = models.BooleanField(default=False)
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+

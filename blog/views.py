@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
 from .forms import RegisterForm, Message, SubsForm
+from django.views.generic import ListView, DetailView
+from .models import Blog
 
 def home(request):
-   
+    blogitem = Blog.objects.all()
     if request.method == "POST":
         form = Message(request.POST)
         if form.is_valid():
@@ -11,25 +13,15 @@ def home(request):
     else:
         form = Message()
     context = {
-    'form':form
+    'form':form,
+    'blogitem':blogitem
     }
-    return render(request, 'blog/homepage.html', context)
+    return render(request, 'blog/index.html', context)
     
 
 
 
-def blogview(request):
-    if request.method == "POST":
-        form = SubsForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('blog')
-    else:
-        form = SubsForm()
-    context = {
-        'form': form
-    }   
-    return render(request, 'blog/blog.html', context)
+
     
 def register(request):
     if request.method == "POST":
@@ -44,3 +36,24 @@ def register(request):
         form
     }
     return render(request, 'blog/signup.html', context)
+
+
+
+
+
+class BlogDetail(DetailView):
+    template_name = 'blog/blog_content.html'
+    model = Blog
+
+
+
+def blog(request):
+    blogitems = Blog.objects.all()
+    if request.method == 'POST':
+        form = SubsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blogs')
+    else:
+        form = SubsForm()
+    return render(request, 'blog/blogs.html', {"blogitems": blogitems, "form": form})
